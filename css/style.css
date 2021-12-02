@@ -14,7 +14,7 @@
     background-color: blue;
 }
 
-.bomb {
+.bomb.explode {
     background-color: red;
 }
 

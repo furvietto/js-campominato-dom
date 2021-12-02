@@ -111,17 +111,19 @@ button.addEventListener("click" ,function () {
             div.classList.add("easy");
             squareCont.append(div);
             div.append(i + 1);  
-            
+            if (easyBomb.includes(i + 1)) {
+              div.classList.add("bomb")  
+            } 
              div.addEventListener("click" , function () {
                 if (easyBomb.includes(i + 1)) {
-                    for (let x = 0; x < 100; x++) {
-                        const red = document.querySelectorAll(".easy");
-                        if (easyBomb.includes(x + 1)) {
-                            red[x].classList.add("bomb");                          
-                        }
-                        squareCont.replaceChild(red[x].cloneNode(true), red[x]); 
+                    const red = document.querySelectorAll(".bomb");
+                    const ciao = document.querySelectorAll(".easy")
+                    for (let y = 0; y < red.length; y++) {
+                        red[y].classList.add("explode")      
                     }
-
+                    for (let x = 0; x < 100; x++) {
+                        squareCont.replaceChild(ciao[x].cloneNode(true), ciao[x]); 
+                    }
                 } else {
                     this.classList.add("color-blue");
                 }
@@ -142,20 +144,23 @@ button.addEventListener("click" ,function () {
             squareCont.append(div);
             div.append(i + 1);  
             
-            div.addEventListener("click" , function () {
-                if (mediumBomb.includes(i + 1)) {
-                    for (let x = 0; x < 81; x++) {
-                        const red = document.querySelectorAll(".medium");
-                        if (mediumBomb.includes(x + 1)) {
-                            red[x].classList.add("bomb");                          
-                        }
-                        squareCont.replaceChild(red[x].cloneNode(true), red[x]); 
-                    }
-
-                } else {
-                    this.classList.add("color-blue");
-                }
-            })
+            if (mediumBomb.includes(i + 1)) {
+                div.classList.add("bomb")  
+              } 
+               div.addEventListener("click" , function () {
+                  if (mediumBomb.includes(i + 1)) {
+                      const red = document.querySelectorAll(".bomb");
+                      const ciao = document.querySelectorAll(".medium")
+                      for (let y = 0; y < red.length; y++) {
+                          red[y].classList.add("explode")      
+                      }
+                      for (let x = 0; x < 81; x++) {
+                          squareCont.replaceChild(ciao[x].cloneNode(true), ciao[x]); 
+                      }
+                  } else {
+                      this.classList.add("color-blue");
+                  }
+              })
         }
 
     // hard
@@ -169,21 +174,52 @@ button.addEventListener("click" ,function () {
             squareCont.append(div);
             div.append(i + 1);  
             
-            div.addEventListener("click" , function () {
-                if (hardBomb.includes(i + 1)) {
-                    for (let x = 0; x < 49; x++) {
-                        const red = document.querySelectorAll(".hard");
-                        if (hardBomb.includes(x + 1)) {
-                            red[x].classList.add("bomb");                          
-                        }
-                        squareCont.replaceChild(red[x].cloneNode(true), red[x]); 
-                    }
-
-                } else {
-                    this.classList.add("color-blue");
-                }
-            })
+            if (hardBomb.includes(i + 1)) {
+                div.classList.add("bomb")  
+              } 
+               div.addEventListener("click" , function () {
+                  if (hardBomb.includes(i + 1)) {
+                      const red = document.querySelectorAll(".bomb");
+                      const ciao = document.querySelectorAll(".hard")
+                      for (let y = 0; y < red.length; y++) {
+                          red[y].classList.add("explode")      
+                      }
+                      for (let x = 0; x < 49; x++) {
+                          squareCont.replaceChild(ciao[x].cloneNode(true), ciao[x]); 
+                      }
+                  } else {
+                      this.classList.add("color-blue");
+                  }
+              })
         }
     }
     
 })
+
+
+// filadelfio style
+
+// else {
+//     squareCont.innerHTML = ""
+//     active.classList.add("block");
+//     for (let i = 0; i < 49; i++) {
+//         const div = document.createElement("div");
+//         div.classList.add("hard");
+//         squareCont.append(div);
+//         div.append(i + 1);  
+        
+//         div.addEventListener("click" , function () {
+//             if (hardBomb.includes(i + 1)) {
+//                 for (let x = 0; x < 49; x++) {
+//                     const red = document.querySelectorAll(".hard");
+//                     if (hardBomb.includes(x + 1)) {
+//                         red[x].classList.add("bomb");                          
+//                     }
+//                     squareCont.replaceChild(red[x].cloneNode(true), red[x]); 
+//                 }
+
+//             } else {
+//                 this.classList.add("color-blue");
+//             }
+//         })
+//     }
