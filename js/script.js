@@ -115,6 +115,7 @@ button.addEventListener("click" ,function () {
               div.classList.add("bomb")  
             } 
              div.addEventListener("click" , function () {
+                 
                 if (easyBomb.includes(i + 1)) {
                     const red = document.querySelectorAll(".bomb");
                     const ciao = document.querySelectorAll(".easy")
@@ -124,6 +125,8 @@ button.addEventListener("click" ,function () {
                     for (let x = 0; x < 100; x++) {
                         squareCont.replaceChild(ciao[x].cloneNode(true), ciao[x]); 
                     }
+                    squareCont.innerHTML += `<h1> mi dispiace hai perso </h1>`
+
                 } else {
                     this.classList.add("color-blue");
                 }
