@@ -1,3 +1,7 @@
+:root {
+    --cell-length:0em
+}
+
 * {
     margin: 0;
     padding: 0;
@@ -14,7 +18,7 @@
     background-color: blue;
 }
 
-.bomb.explode {
+.bomb {
     background-color: red;
 }
 
@@ -53,44 +57,33 @@ img {
 }
 
 /* display */
-.active {
-    display: none;
-}
-
-.active.block {
-    display: block;
-}
 
 .square-container {
-    width: 700px;
-    height: 500px;
+    width: 32em;
+    height: 32em;
     border: 1px solid black;
     display: flex;
     flex-wrap: wrap;
 }
 
+.square.safe {
+    color: white;
+    background-color: cornflowerblue;
+  }
+
+.square.bomb {
+    color: white;
+    background-color: red;
+}
 /* difficulty */
 
-.square-container > .easy {
-    width: calc(100% / 10);
-    height: calc(100% / 10);
-}
-
-.square-container > .medium {
-    width: calc(100% / 9);
-    height: calc(100% / 9);
-}
-
-.square-container > .hard {
-    width: calc(100% / 7);
-    height: calc(100% / 7);
-}
-
-.square-container > div {
+.square {
     display: flex;
     align-items: center;
     justify-content: center;
     border: 1px solid black;
+    width: calc(100% / var(--cell-length));
+    height: calc(100% / var(--cell-length));
 }
 
 /* footer */

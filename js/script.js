@@ -15,214 +15,124 @@
 // Di cosa ho bisogno per generare i numeri? Proviamo sempre prima con dei console.log() per capire se stiamo ricevendo i dati giusti. Le validazioni e i controlli possiamo farli anche in un secondo momento.
 // Buon lavoro, ci becchiamo coi tickets dalle 15 alle 18
 
-// ---------!!!!!!!!!!!!------- con function
-
-// const button = document.querySelector("button");
-
-// button.addEventListener("click" ,function () {
-    
-//     const select = document.getElementById("difficulty");
-    
-//     let easy = 100;
-//     let medium = 81;
-//     let hard = 49;
-//     let easyclass = "easy"
-//     let mediumClass = "medium";
-//     let hardClass = "hard"
-
-//     function addSquare(cont, difficulty) {
-//         const active = document.querySelector(".active");
-//         const squareCont = document.querySelector(".square-container");
-//         squareCont.innerHTML = ""
-//         active.classList.add("block");
-//         for (let i = 0; i < cont; i++) {
-//             const div = document.createElement("div");
-//             div.classList.add(difficulty);
-//             squareCont.append(div);
-//             div.append(i + 1);  
-            
-//             div.addEventListener("click" , function () {
-//                 this.classList.add("color-blue")
-//             })
-//         }
-//     }
-
-//     // easy
-
-//     if (select.value == "easy") {
-//         addSquare(easy,easyclass);
-        
-//     // medium
-
-//     } else if (select.value == "medium"){
-//         addSquare(medium,mediumClass);
-
-//     // hard
-
-//     } else {
-//         addSquare(hard,hardClass);
-//     }
-    
-// })
-
-
-
-
-// --------!!!!!!!!------- normale
 function getRndInteger(min, max) {
-    let bomb = []
-
-    for (let i = 0; i < 16; i++) {
-        min = Math.ceil(min);
-        max = Math.floor(max)
-
-        let element = bomb[i];
-        element =  Math.floor(Math.random() * (max - min + 1) ) + min;
-        
-        while (bomb.includes(element)) {
-            element =  Math.floor(Math.random() * (max - min + 1) ) + min;
-        }
-        bomb.push(element)
-    }
-    return bomb
+    return Math.floor(Math.random() * (max - min + 1) ) + min;
   }
+
+  /**
+   * 
+   * @param {*} min numero minimo
+   * @param {*} max numero massimo
+   * @returns array di 16 numeri casuali
+   */
+
+function createRandomNumbers(min,max) {
+    const bombs = []
+
+    while (bombs.length < 16) {
+        let randBomb = getRndInteger(min,max)
+        while (bombs.includes(randBomb)) {
+            randBomb = getRndInteger(min,max)
+        }
+        bombs.push(randBomb)
+    }
+
+    return bombs
+}
+
+
+
+const buttton = document.querySelector("button")
+
+    buttton.addEventListener("click" , function () {
+        
+        const main_cont = document.querySelector(".container-main");
+        main_cont.innerHTML = ""
+
+        const grid = document.createElement("div");
+        grid.classList.add("square-container");
+        main_cont.append(grid);
+
+       
+
+        const level = document.getElementById("level");
+        const levelSelected = level.value;
+
+        let cellNumber;
+        let cellPerSide;
+
+        switch (levelSelected) {
+            default:
+            case "easy":
+                cellNumber = 100
+                cellPerSide = 10
+                break;
+            case "medium":
+                cellNumber = 81
+                cellPerSide = 9
+                break;
+            case "hard":
+                cellNumber = 49
+                cellPerSide = 7
+        }
+
+        const bombArray = createRandomNumbers(1 , cellNumber)
+       console.log(bombArray);
+       let clicked = 0;
+       const winner = cellNumber - 16
+        for (let i = 0; i < cellNumber; i++) {
+            const square = document.createElement("div")
+            square.classList.add("square");
+
+            // come cambiare proprietà di una variabile
+            // document.documentElement.style.setProperty(`--cell-length`,cellPerSide)
+
+            // oppure anche cosi
+            square.style = `--cell-length : ${cellPerSide}`;                     
+            grid.append(square);
+            const text = square.innerText = i
+            
+            
+            square.addEventListener("click", function () {
+                const isSelected = this.classList.contains("selected")    
+                const bombsDom = document.querySelectorAll(".bomb")
+                if (!isSelected && bombsDom.length == 0) {
+                    this.classList.add("selected")
+                    const result = document.querySelector(".square-container");
+                    if (bombArray.includes(text)) {
+                        this.classList.add("bomb")
+                        const squaresBomb = document.querySelectorAll(".square")
+                        
+                        for (let index = 0; index < squaresBomb.length; index++) {
+                            const squaresIndex =parseInt(squaresBomb[index].innerText)
+                            
+                            if (bombArray.includes(squaresIndex)) {
+                                squaresBomb[index].classList.add("bomb")
+
+                                
+                            }
+                        }
+                        result.innerHTML += `hai perso, hai fatto ${clicked} punti`
+                    }else {
+                        this.classList.add("safe")
+                        clicked++
+                        if (clicked == winner) {
+                            result.innerHTML += `hai vinto, hai fatto ${clicked} punti`
+                        }
+                    }
+                }
+                
+            })
+        }
+
+
+    })
+    
 
 
 
   
-const button = document.querySelector("button");
-const select = document.getElementById("difficulty");
-const active = document.querySelector(".active");
-const squareCont = document.querySelector(".square-container");
 
 
-button.addEventListener("click" ,function () {
-
-    const easyBomb = getRndInteger(1,100);
-    const mediumBomb = getRndInteger(1,81);
-    const hardBomb = getRndInteger(1,49);
-    
-
-    if (select.value == "easy") {
-        squareCont.innerHTML = ""
-        active.classList.add("block");
-        for (let i = 0; i < 100; i++) {
-            const div = document.createElement("div");
-            div.classList.add("easy");
-            squareCont.append(div);
-            div.append(i + 1);  
-            if (easyBomb.includes(i + 1)) {
-              div.classList.add("bomb")  
-            } 
-             div.addEventListener("click" , function () {
-                 
-                if (easyBomb.includes(i + 1)) {
-                    const red = document.querySelectorAll(".bomb");
-                    const ciao = document.querySelectorAll(".easy")
-                    for (let y = 0; y < red.length; y++) {
-                        red[y].classList.add("explode")      
-                    }
-                    for (let x = 0; x < 100; x++) {
-                        squareCont.replaceChild(ciao[x].cloneNode(true), ciao[x]); 
-                    }
-                    squareCont.innerHTML += `<h1> mi dispiace hai perso </h1>`
-
-                } else {
-                    this.classList.add("color-blue");
-                }
-            })
-           
-        }
-
-    
-        
-    // medium
-
-    } else if (select.value == "medium"){
-        squareCont.innerHTML = ""
-        active.classList.add("block");
-        for (let i = 0; i < 81; i++) {
-            const div = document.createElement("div");
-            div.classList.add("medium");
-            squareCont.append(div);
-            div.append(i + 1);  
-            
-            if (mediumBomb.includes(i + 1)) {
-                div.classList.add("bomb")  
-              } 
-               div.addEventListener("click" , function () {
-                  if (mediumBomb.includes(i + 1)) {
-                      const red = document.querySelectorAll(".bomb");
-                      const ciao = document.querySelectorAll(".medium")
-                      for (let y = 0; y < red.length; y++) {
-                          red[y].classList.add("explode")      
-                      }
-                      for (let x = 0; x < 81; x++) {
-                          squareCont.replaceChild(ciao[x].cloneNode(true), ciao[x]); 
-                      }
-                  } else {
-                      this.classList.add("color-blue");
-                  }
-              })
-        }
-
-    // hard
-
-    } else {
-        squareCont.innerHTML = ""
-        active.classList.add("block");
-        for (let i = 0; i < 49; i++) {
-            const div = document.createElement("div");
-            div.classList.add("hard");
-            squareCont.append(div);
-            div.append(i + 1);  
-            
-            if (hardBomb.includes(i + 1)) {
-                div.classList.add("bomb")  
-              } 
-               div.addEventListener("click" , function () {
-                  if (hardBomb.includes(i + 1)) {
-                      const red = document.querySelectorAll(".bomb");
-                      const ciao = document.querySelectorAll(".hard")
-                      for (let y = 0; y < red.length; y++) {
-                          red[y].classList.add("explode")      
-                      }
-                      for (let x = 0; x < 49; x++) {
-                          squareCont.replaceChild(ciao[x].cloneNode(true), ciao[x]); 
-                      }
-                  } else {
-                      this.classList.add("color-blue");
-                  }
-              })
-        }
-    }
-    
-})
 
 
-// filadelfio style
-
-// else {
-//     squareCont.innerHTML = ""
-//     active.classList.add("block");
-//     for (let i = 0; i < 49; i++) {
-//         const div = document.createElement("div");
-//         div.classList.add("hard");
-//         squareCont.append(div);
-//         div.append(i + 1);  
-        
-//         div.addEventListener("click" , function () {
-//             if (hardBomb.includes(i + 1)) {
-//                 for (let x = 0; x < 49; x++) {
-//                     const red = document.querySelectorAll(".hard");
-//                     if (hardBomb.includes(x + 1)) {
-//                         red[x].classList.add("bomb");                          
-//                     }
-//                     squareCont.replaceChild(red[x].cloneNode(true), red[x]); 
-//                 }
-
-//             } else {
-//                 this.classList.add("color-blue");
-//             }
-//         })
-//     }
