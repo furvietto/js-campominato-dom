@@ -15,6 +15,11 @@
 // Di cosa ho bisogno per generare i numeri? Proviamo sempre prima con dei console.log() per capire se stiamo ricevendo i dati giusti. Le validazioni e i controlli possiamo farli anche in un secondo momento.
 // Buon lavoro, ci becchiamo coi tickets dalle 15 alle 18
 
+
+
+
+
+
 function getRndInteger(min, max) {
     return Math.floor(Math.random() * (max - min + 1) ) + min;
   }
@@ -92,28 +97,24 @@ const buttton = document.querySelector("button")
             grid.append(square);
             const text = square.innerText = i
             
-            
-            square.addEventListener("click", function () {
-                const isSelected = this.classList.contains("selected")    
-                const bombsDom = document.querySelectorAll(".bomb")
-                if (!isSelected && bombsDom.length == 0) {
-                    this.classList.add("selected")
+            function checkbomb() {
+                   
+                if ( clicked != winner) {
                     const result = document.querySelector(".square-container");
                     if (bombArray.includes(text)) {
-                        this.classList.add("bomb")
                         const squaresBomb = document.querySelectorAll(".square")
                         
-                        for (let index = 0; index < squaresBomb.length; index++) {
-                            const squaresIndex =parseInt(squaresBomb[index].innerText)
+                        for (let x = 0; x < squaresBomb.length; x++) {
+                            const squaresIndex =parseInt(squaresBomb[x].innerText)
                             
                             if (bombArray.includes(squaresIndex)) {
-                                squaresBomb[index].classList.add("bomb")
-
-                                
+                                squaresBomb[x].classList.add("bomb") 
+                                squaresBomb[x].removeEventListener("click", checkbomb)
                             }
                         }
                         result.innerHTML += `hai perso, hai fatto ${clicked} punti`
                     }else {
+                        this.removeEventListener("click", checkbomb)
                         this.classList.add("safe")
                         clicked++
                         if (clicked == winner) {
@@ -121,8 +122,9 @@ const buttton = document.querySelector("button")
                         }
                     }
                 }
-                
-            })
+            }
+
+            square.addEventListener("click", checkbomb)
         }
 
 
