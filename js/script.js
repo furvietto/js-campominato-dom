@@ -109,8 +109,8 @@ const buttton = document.querySelector("button")
                             
                             if (bombArray.includes(squaresIndex)) {
                                 squaresBomb[x].classList.add("bomb") 
-                                squaresBomb[x].removeEventListener("click", checkbomb)
                             }
+                            squaresBomb[x].removeEventListener("click", checkbomb)
                         }
                         result.innerHTML += `hai perso, hai fatto ${clicked} punti`
                     }else {
